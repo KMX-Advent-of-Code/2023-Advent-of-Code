@@ -64,6 +64,8 @@ numbers, symbols, coords = process_data_part1(s2)
 print(solve_part1(numbers, coords))
 
 
+## If I had just found the numbers near the symbols originally I wouldn't have had to change methods here
+## didn't occur to me until part 2 I could just find the numbers repeatedly near symbols and de-duplicate with a set.
 def process_data_part2(s2):
     numbers = []
     for i, l in enumerate(s2):
