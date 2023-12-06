@@ -127,7 +127,6 @@ def solve_part2(test_data):
     seed_pairs = []
     for i in range(0, len(seeds), 2):
         seed_pairs.append((seeds[i], seeds[i + 1]))
-    seed_pairs.reverse()
     current_best = None
     for a, b in seed_pairs:
         start_range, end_range = a, a + b - 1
