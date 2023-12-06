@@ -1,6 +1,11 @@
+import sys
+
+sys.path.append("../../aoc_2023")
+
 from aoc_helper import get_input
 from tqdm import tqdm
 import re
+import time
 
 test_data = """seeds: 79 14 55 13
 
@@ -38,6 +43,7 @@ humidity-to-location map:
 
 
 class myMapper():
+
     def __init__(self):
         self.records = []
 
@@ -59,7 +65,7 @@ def process_map(x):
     m = myMapper()
     nums = []
     for item in x.split('\n'):
-        out = [int(x) for x in re.findall("\d+", item)]
+        out = [int(x) for x in re.findall(r"\d+", item)]
         if out:
             nums.append((out))
     for num in nums:
@@ -68,7 +74,7 @@ def process_map(x):
 
 
 def process_all_maps(data):
-    return [int(x) for x in re.findall("\d+", data[0])
+    return [int(x) for x in re.findall(r"\d+", data[0])
             ], [process_map(row) for row in data[1:]]
 
 
@@ -99,7 +105,6 @@ def search_seeds(start_range, end_range, maps, current_best=None):
     ## lowest. So not sure if this is a universal solution. But if it was  wrong
     ## I could just turn this optimization off (which I did not use in the original solve)
 
-
     if current_best is not None:
         if current_best < candidate_location:
             print("returning candidate not final loc")
@@ -107,7 +112,7 @@ def search_seeds(start_range, end_range, maps, current_best=None):
 
     print("Scanning for exact")
 
-    while True:
+    while True and seed > start_range:
         seed = seed - 1
         new_loc = process_one_seed(seed, maps)
         if new_loc > loc:
@@ -122,6 +127,7 @@ def solve_part2(test_data):
     seed_pairs = []
     for i in range(0, len(seeds), 2):
         seed_pairs.append((seeds[i], seeds[i + 1]))
+    seed_pairs.reverse()
     current_best = None
     for a, b in seed_pairs:
         start_range, end_range = a, a + b - 1
@@ -143,4 +149,7 @@ if __name__ == '__main__':
     real_data = day5_string.split('\n\n')
     print(f"Part 1 test answer is {solve_part1(test_data)}")
     print(f"Part 1 answer is {solve_part1(real_data)}")
+    start_time = time.time()
+
     print(f"Part 2 answer is {solve_part2(real_data)}")
+    print("--- %s seconds ---" % (time.time() - start_time))
