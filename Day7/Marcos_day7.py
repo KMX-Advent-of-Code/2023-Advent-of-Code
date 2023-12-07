@@ -22,20 +22,16 @@ class Hand:
         return self.hand
 
     def __lt__(self, other):
-        if self.top_counts[0][1] < other.top_counts[0][1]:
-            return True
-        elif self.top_counts[0][1] > other.top_counts[0][1]:
-            return False
+        if self.top_counts[0][1] != other.top_counts[0][1]:
+            return self.top_counts[0][1] < other.top_counts[0][1]
         elif (self.top_counts[0][1]
               == other.top_counts[0][1]) and (self.top_counts[0][1] != 5):
             if self.top_counts[1][1] == other.top_counts[1][1] == 2:
                 # two full houses or two two pairs
                 pass
-            elif self.top_counts[1][1] < other.top_counts[1][1]:
-                ## 3 of of a kind losing to full house
-                return True
-            elif self.top_counts[1][1] > other.top_counts[1][1]:
-                return False
+            elif self.top_counts[1][1] != other.top_counts[1][1]:
+                ## 3 of of a kind vs  full house
+                return self.top_counts[1][1] < other.top_counts[1][1]
         for a, b in zip(self.hand_values, other.hand_values):
             if a != b:
                 return a < b
