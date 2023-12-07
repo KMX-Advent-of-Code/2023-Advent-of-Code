@@ -9,8 +9,7 @@ import numpy as np
 
 def run_part1(input_text: str) -> int:
     """
-    Map the seeds to locations according to the chain of maps, and return
-    the smallest location.
+    Count the number of options to win each race, and return the product.
     """
     times, best_distances = parse_input(input_text)
     logging.debug("times: %s, best_distances: %s", times, best_distances)
@@ -24,8 +23,8 @@ def run_part1(input_text: str) -> int:
 
 def run_part2(input_text: str) -> int:
     """
-    This is a more efficient version of part 1, which maps intervals of seeds
-    instead of individual seeds.
+    Concatenate all the input numbers together, and calculate the number
+    of options for that single longer race.
     """
     times, best_distances = parse_input(input_text)
     time = concat_ints(times)
@@ -36,10 +35,8 @@ def run_part2(input_text: str) -> int:
 
 def parse_input(input_text: str) -> list:
     """
-    Parse input of the form
-        Time:      7  15   30
-        Distance:  9  40  200
-    into two lists of integers, one for times and one for distances.
+    Parse input text into two lists of integers, one for times and
+    one for distances.
     """
     lines = input_text.split("\n")
     times = [int(t) for t in lines[0].split()[1:]]
