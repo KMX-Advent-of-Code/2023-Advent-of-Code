@@ -28,10 +28,11 @@ class Hand:
             return False
         elif (self.top_counts[0][1]
               == other.top_counts[0][1]) and (self.top_counts[0][1] != 5):
-            ## full house
             if self.top_counts[1][1] == other.top_counts[1][1] == 2:
+                # two full houses or two two pairs
                 pass
             elif self.top_counts[1][1] < other.top_counts[1][1]:
+                ## 3 of of a kind losing to full house
                 return True
             elif self.top_counts[1][1] > other.top_counts[1][1]:
                 return False
