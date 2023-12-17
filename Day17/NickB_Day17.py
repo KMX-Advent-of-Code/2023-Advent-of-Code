@@ -7,7 +7,7 @@ Approach: focus on "states" (i, j, io, jo, k) giving
 - (io, jo): vector of the movement that brought us into this location
 - k: number of consecutive (io, jo) movements we've just finished making
 
-For each state, record the distance to the target (n-1, m-1) location *so far* - initialize these all as np.inf.
+For each state, record the heat loss to the target (n-1, m-1) location *so far* - initialize these all as np.inf.
 Loop through all the states and update them based on their neighbors (but not recursively updating the neighbors), until we reach steady state.
 This effectively means it'll consider more complex paths until we don't need to consider additional complexity.
 
