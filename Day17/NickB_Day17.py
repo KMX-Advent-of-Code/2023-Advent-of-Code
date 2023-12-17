@@ -93,16 +93,13 @@ def update2(state):
     # if we can turn
     else:
         for _io, _jo in ((-1, 0), (0, -1), (1, 0), (0, 1)):
-            # avoid backtracking
             if (_io, _jo) == (-io, -jo):
                 continue
-            # keep track if we're going in the same direction
             elif (_io, _jo) == (io, jo):
                 _k = k + 1
             else:
                 _k = 1
     
-            # lookup, with a distance of np.inf if the state we're looking at isn't valid (ex. k > 3 or it's off the board)
             ds.append(heat_losses.get((i+_io, j+_jo, _io, _jo, _k), np.inf))
 
     # best distance
