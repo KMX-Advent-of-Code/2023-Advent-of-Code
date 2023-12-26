@@ -163,7 +163,6 @@ def part2(s):
     """Solve part 2"""
 
     # I ran this next block in a notebook, running the iterate() several times and tweaking the learning rate until it was below 1e10
-    # this 
 
     # set up the pytorch
     solver = Solver(s)
@@ -195,10 +194,9 @@ def part2(s):
     #dx = dx / np.linalg.norm(dx)
     #dx = dx * np.linalg.norm([154, 75, 290])
 
-    # so the only thing left to do is find x (the intial position of the rock), using this finalized dx value
-    # (solver.x is not precise enough)
+    # so the only thing left to do is find x (the intial position of the rock), using this finalized dx value (since solver.x is not precise enough)
 
-    # grab two hailstones to work with, chosen so that the rock would hit x1 first and then x2
+    # grab two hailstones to work with, chosen so that the rock would first hit x1 and then x2
     X = solver.X.detach().numpy()
     DX = solver.DX.detach().numpy()
     x1 = X[1,:]
@@ -207,7 +205,7 @@ def part2(s):
     dx2 = DX[0,:]
 
     # using this dx, the goal is to find t for when the rock should hit hailstone 1 and dt for how long the rock would then travel to hit hailstone 2
-    # I did this in a notebook, so the optimization bounds are there just to speed up this demo
+    # I did this in a notebook with lots of tweaking, so the optimization bounds here are there just to speed up this demo
     dx = np.array([154, 75, 290])
 
     def distance_t_dt(t, dt):
