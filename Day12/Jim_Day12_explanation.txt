@@ -1,0 +1,76 @@
+Method: Solve numbers one at a time left to right by checking each possible placement of n #'s from left to right.
+Key Insight:  Solutions of the same length have the same solutions for remaining numbers.
+
+Example: ".???#??.?##?#???", [1, 1, 7]
+
+1.  Solve first 1
+.???#??.?##?#???
+#. (No, first char must be .)
+
+.???#??.?##?#???
+.#. (yes, solution is valid)
+
+.???#??.?##?#???
+..#. (yes)
+
+.???#??.?##?#???
+...#. (No, fifth char must be #)
+
+.???#??.?##?#???
+....#. (yes)
+
+No more solutions are possible.  We need at least 10 chars to handle 1 and 7 with "." in between.  Next possible solution would only leave 9 chars.)
+
+2.  Solve second 1 with ".#." as first 1 solution.
+.???#??.?##?#???
+.#.#. (no, 5th char must be #)
+
+.???#??.?##?#???
+.#..#. (yes)
+
+.???#??.?##?#???
+.#...# (no, # as 5th char prevents all remaining solutions)
+
+3.  Solve second 1 with "..#." as first 1 solution.
+.???#??.?##?#???
+..#.#. (yes)
+
+.???#??.?##?#???
+..#..#. (no, # as 5th char prevents all remaining solutions)
+
+4.  Solve second 1 with "....#." as first 1 solution.
+
+.???#??.?##?#???
+....#.#. (yes)
+
+.???#??.?##?#???
+....#...#. (no, only 6 chars leftover, cannot handle third num, 7)
+
+5.  Solve for 7
+Three solutions for first two numbers:
+.#..#.
+..#.#.
+....#.#.
+
+Key Insight:  First two solutions are the same length. So, we only need to solve 7 once for both.
+
+.???#??.?##?#???
+123456..#######. (yes) (counts as two total solutions, because there are two solutions of length 6)
+
+.???#??.?##?#???
+123456...####### (yes) (counts as two total solutions, because there are two solutions of length 6)
+
+.???#??.?##?#???
+12345678#######. (yes) (counts as one solution, because there is one solution of length 8)
+
+.???#??.?##?#???
+12345678.####### (yes) (counts as one solution, because there is one solution of length 8)
+
+6 solutions total
+
+In this case, only having to solve the third number two times instead of three times did not make a significant runtime difference.
+However, the part 2 version of this row is:
+'.???#??.?##?#????.???#??.?##?#????.???#??.?##?#????.???#??.?##?#????.???#??.?##?#???'
+[1, 1, 7, 1, 1, 7, 1, 1, 7, 1, 1, 7, 1, 1, 7]
+There are 9261 ways to solve the first 14 numbers of the problem.
+However, these 9261 solutions only have 4 unique lengths.  So, consolidating by unique lengths reduces part 2 runtime considerably.
