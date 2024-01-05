@@ -22,6 +22,35 @@ for row in data1:
     data.append([row[0]+'?'+row[0]+'?'+row[0]+'?'+row[0]+'?'+row[0], [int(x) for x in row1]])
 
 def first_num_tester(begin_char_num, chars, nums):
+    """Given a string (chars), and a list of numbers (nums),
+    can a sequence of "#"s starting at begin_char_num solve the first number in nums?
+    (One example for each condition, respectively)
+    
+    Ex: begin_char_num=5, chars='.?.?.?.', [1,1]
+        .?.?.?.
+        .....#.
+        False, # could be placed at third ?.  However, this does not leave enough chars to handle the second 1.
+
+    Ex: begin_char_num=0, chars='.?.?.?.', [1,1]
+        .?.?.?.
+        #.
+        False.  Char 0 is '.'  So, we can't put "#" there.
+
+    Ex: begin_char_num=3, chars='.#.?.?.', [1,1]
+        .#.?.?.
+        ...#.
+        False.  We're solving the first "1".  Placing # at the first ? solves the second "1", not the first.
+
+    Ex: begin_char_num=3, chars='.?.?#.?.', [1,1]
+        .?.?#.?.
+        ...#.
+        False.  Char 3 can be "#", but Char 4 must be "#" not "."
+
+    Ex: begin_char_num=3, chars='.?.#.', [1] (final number)
+        .?.#.
+        .#.
+        False.  Char 2 can be "#".  But, the remaining "#" adds an extra 1 to the schema.
+    """
     first_num = nums[0]
     if len(chars) < sum(nums)+len(nums)-1-begin_char_num: #must be enough chars remaining to handle all remaining nums
         return False
