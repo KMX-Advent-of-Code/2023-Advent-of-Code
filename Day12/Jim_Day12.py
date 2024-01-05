@@ -26,22 +26,22 @@ def first_num_tester(begin_char_num, chars, nums):
     can a sequence of "#"s starting at begin_char_num solve the first number in nums?
     (One example for each condition, respectively)
     
-    Ex: begin_char_num=5, chars='.?.?.?.', [1,1]
+    Ex: begin_char_num=5, chars='.?.?.?.', nums=[1,1]
         .?.?.?.
         .....#.
         False, # could be placed at third ?.  However, this does not leave enough chars to handle the second 1.
 
-    Ex: begin_char_num=0, chars='.?.?.?.', [1,1]
+    Ex: begin_char_num=0, chars='.?.?.?.', nums=[1,1]
         .?.?.?.
         #.
         False.  Char 0 is '.'  So, we can't put "#" there.
 
-    Ex: begin_char_num=3, chars='.#.?.?.', [1,1]
+    Ex: begin_char_num=3, chars='.#.?.?.', nums=[1,1]
         .#.?.?.
         ...#.
         False.  We're solving the first "1".  Placing # at the first ? solves the second "1", not the first.
 
-    Ex: begin_char_num=3, chars='.?.?#.?.', [1,1]
+    Ex: begin_char_num=3, chars='.?.?#.?.', nums=[1,1]
         .?.?#.?.
         ...#.
         False.  Char 3 can be "#", but Char 4 must be "#" not "."
@@ -65,8 +65,23 @@ def first_num_tester(begin_char_num, chars, nums):
     return True
 
 def first_num_placer(prev_char_count, prev_solution_count, chars, nums):
+    """Given that number n was solved with prev_char_count characters, solve for number n+1.
+    Number n has prev_solution_count solutions of length prev_char_count.  So, each solution
+    we find for number n+1 contributes prev_solution_count total solutions.
+    chars is only remaining chars.  nums is only remaining nums
+
+    Ex.  '.?.?.?.', [1,1]
+    Solve first 1:
+    first_num_placer(0, 1, '.?.?.?.', [1,1])
+        returns: {3:1, 5:1} (The first "1" has 1 solution of length 3 and 1 solution of length 5)
+    Solve second 1:
+    first_num_placer(3, 1, '?.?.', [1])
+        returns: {5:1, 7:1}
+    first_num_placer(5, 1, '?.', [1])
+        returns: {5:1, 7:2} (3 solutions, total)
+    """
     first_num_placements = {}
-    for begin_char_num in range(len(chars)-sum(nums)-(len(nums)-1)+1):
+    for begin_char_num in range(len(chars)-sum(nums)-(len(nums)-1)+1): #total_chars - min_space_for_# - min_space_for_._between_# + 1
         if first_num_tester(begin_char_num, chars, nums):
             if prev_char_count+begin_char_num+nums[0]+1 in first_num_placements:
                 first_num_placements[prev_char_count+begin_char_num+nums[0]+1] += prev_solution_count
@@ -79,7 +94,7 @@ for row in data:
     placements = {0:{0:1}} #there's one way, to use zero characters, to deal with the zero-th number (first number listed is numbered "1", zero-th number does not exist)
     chars = row[0]
     nums = row[1]
-    for num_num in range(len(nums)): #each iteration handles one number on the list, the first number has num_num of 1
+    for num_num in range(len(nums)): #each iteration handles one number on the list, solutions for first number on list are in placements[1]
         placements[num_num+1] = {}
         for prev_char_count, prev_solution_count in placements[num_num].items():
             first_num_placements = first_num_placer(prev_char_count, prev_solution_count, chars[prev_char_count:], nums[num_num:])
